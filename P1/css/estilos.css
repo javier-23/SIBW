@@ -11,30 +11,35 @@ body {
     font-family: 'Lucida Sans', 'Times New Roman', serif; 
 }
 
-.logo{
-    width: 150px; /* Ajusta el ancho según sea necesario */
-    height: auto; /* Mantiene la proporción de la imagen */
-    position: absolute; 
-    left: 210px;
-    border-radius: 20%;
-}
-
 header{
     display: flex;
     justify-content: center; /*Centra el contenido horizontalmente*/
     align-items: center; /*Centra el contenido verticalmente*/
     background-color: antiquewhite;
     margin-bottom: 5px;
-    flex-direction: column; /*Alinea los elementos en columna*/
     border-radius: 8px;
+    padding: 20px;
+}
+
+.logo{
+    width: 150px; /* Ajusta el ancho según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+    position: absolute;
+    left: 210px;
+    border-radius: 20%;
+}
+
+.titulo-menus{
+    display: flex;
+    flex-direction: column; /* Alinea el título y el menú en columna */
+    align-items: center;
     
 }
 
 header h1{
     font-family: 'Impact';
     font-size: 4em;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 0;
     letter-spacing: 0.4em; /* Espaciado entre letras */
 }
 
@@ -43,6 +48,8 @@ header h1{
     display: flex; /*Muestra los elementos en línea*/
     font-size: larger;
     gap: 20px; /* Espacio entre los elementos */
+    margin: 15px 0 0 0;
+    padding: 0;
 }
 
 .menu-horizontal a{
