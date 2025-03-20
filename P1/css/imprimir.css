@@ -1,11 +1,5 @@
-.logo{
-    width: 100px; /* Ajusta el ancho según sea necesario */
-    height: auto; /* Mantiene la proporción de la imagen */
-    position: relative;
-    border-radius: 20%;
-    margin-top: 10px;
-    margin-left: 10px;
-    order: 2;
+body {
+    font-family:'Times New Roman', serif; 
 }
 
 header{
@@ -16,6 +10,16 @@ header{
     position: relative;
 }
 
+.logo{
+    width: 100px; /* Ajusta el ancho según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+    position: relative;
+    border-radius: 20%;
+    margin-top: 10px;
+    margin-left: 10px;
+    order: 2;
+}
+
 header h1{
     font-family: 'Impact';
     text-align: center;
@@ -23,10 +27,6 @@ header h1{
     margin-top: 10px;
     margin-bottom: 10px;
     letter-spacing: 0.4em; /* Espaciado entre letras */
-}
-
-body {
-    font-family:'Times New Roman', serif; 
 }
 
 .menu-horizontal{
