@@ -1,4 +1,4 @@
-# Prácticas de la asignatura: Sistemas de Información Basados en Web (SIBW)
+# 💻 Prácticas de Sistemas de Información Basados en Web (SIBW)
 Repositorio para guardar las prácticas realizadas en la asignatura SIBW.
 
 ## Práctica 1: HTML + CSS
