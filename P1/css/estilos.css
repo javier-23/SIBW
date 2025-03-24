@@ -136,9 +136,9 @@ aside{
 }
 
 .panel-comentarios {
-    position: fixed;
+    position: fixed; /* Para que se mantenga fijo en la pantalla */
     top: 0;
-    right: -4000px;
+    right: -400px;
     width: 350px;
     height: 100%;
     background-color: #e4e4e4;
@@ -163,11 +163,9 @@ aside{
     width: 25px;
     height: 25px;
     border-radius: 5px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
 .boton-cerrar-comentarios:hover {
@@ -218,11 +216,11 @@ aside{
     color: #444;
 }
 
-.formulario-cuadro {
+.formulario-cuadro { /* Estilo de los campos del formulario */
     margin-bottom: 15px;
 }
 
-.formulario-cuadro label {
+.formulario-cuadro label { /* Estilo de las etiquetas del formulario */
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
@@ -250,11 +248,14 @@ aside{
     cursor: pointer;
     font-weight: bold;
     margin-bottom: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .enviar:hover {
     background-color: #00ac1a;
-    color: white
+    color: white;
 }
 
 /* Modal de error */
@@ -295,7 +296,6 @@ aside{
 .aceptar-boton {
     background-color: #90f285;
     color: black;
-    border: none;
     padding: 8px 15px;
     border-radius: 4px;
     cursor: pointer;
@@ -305,7 +305,6 @@ aside{
     background-color: #00ac1a;
     color: white
 }
-
 
 footer{
     text-align: center;
