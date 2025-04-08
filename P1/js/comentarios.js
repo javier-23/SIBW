@@ -1,6 +1,6 @@
 
     // Referencias a elementos del DOM
-    const mostrarPanel = document.getElementById('mostrarComentarios');
+    const mostrarPanel = document.getElementById('mostrarComentarios'); // Botón para mostrar el panel de comentarios
     const cerrarPanel = document.getElementById('cerrarComentarios');
     const enviarFormulario = document.getElementById('formulario');
     const listaComentarios = document.getElementById('listaComentarios');
@@ -29,7 +29,7 @@
     
     // Validar correo
     function validarEmail(email) {
-        const esValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //Cualquier caracter (menos @ y espacio en blanco) + @ + cualquier caracter + . + cualquier caracter
+        const esValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //Expresión regular: cualquier caracter (menos @ y espacio en blanco) + @ + cualquier caracter + . + cualquier caracter
         return esValido.test(email);
     }
     
@@ -40,10 +40,10 @@
         palabrasProhibidas.forEach(palabra => {
             // Crear una expresión regular para encontrar la palabra completa
             // con 'i' para que no distinga entre mayúsculas y minúsculas
-            const regex = new RegExp(`\\b${palabra}\\b`, 'gi');
+            const aux = new RegExp(`\\b${palabra}\\b`, 'gi');
             
             // Reemplazar cada letra de la palabra con un asterisco
-            texto = texto.replace(regex, match => '*'.repeat(match.length));
+            texto = texto.replace(aux, match => '*'.repeat(match.length));
         });
         
         this.value = texto;
