@@ -29,7 +29,7 @@
     
     // Validar correo
     function validarEmail(email) {
-        const esValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //Expresión regular: cualquier caracter (menos @ y espacio en blanco) + @ + cualquier caracter + . + cualquier caracter
+        const esValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
         return esValido.test(email);
     }
     
@@ -38,9 +38,8 @@
         let texto = this.value;
         
         palabrasProhibidas.forEach(palabra => {
-            // Crear una expresión regular para encontrar la palabra completa
-            // con 'i' para que no distinga entre mayúsculas y minúsculas
-            const aux = new RegExp(`\\b${palabra}\\b`, 'gi');
+            // Expresión regular para encontrar la palabra completa con 'i' para que no distinga entre mayúsculas y minúsculas
+            const aux = new RegExp(`${palabra}`, 'i');
             
             // Reemplazar cada letra de la palabra con un asterisco
             texto = texto.replace(aux, match => '*'.repeat(match.length));
@@ -110,5 +109,5 @@
         `;
         
         // Añadir al principio de la lista
-        listaComentarios.insertBefore(nuevoComentario, listaComentarios.lastChild);
+        listaComentarios.appendChild(nuevoComentario);
     }
