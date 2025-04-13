@@ -1,0 +1,136 @@
+{% extends "portada.html" %}
+
+{% block titulo%}
+<title>Peliculones: {{ pelicula.titulo }}</title>
+{% endblock %}
+
+{% block cabecera %}
+    <header> 
+        <img class="logo" src="../images/logo.png" alt="peliculas">
+        <h1>PELICULONES</h1>
+    </header>
+{% endblock %}
+
+{% block script %}
+    <script src="../js/comentarios.js"></script>
+{% endblock %}
+
+{% block centro %}    
+        <nav class="grid-pelicula">
+
+            <div class="info-basica">
+            <h2> {{ pelicula.titulo }}</h2>
+                <div class="datos">
+                    <p><strong>Fecha de estreno:</strong> {{ pelicula.fecha_estreno }}</p>
+                    <p><strong>Género:</strong> {{ pelicula.genero }}</p>
+                    <p><strong>Director:</strong> {{ pelicula.director }}</p>
+                    <p><strong>Actores principales:</strong> {{ pelicula.actores_principales }}</p>
+                </div>
+            
+                <h3>Sinopsis</h3>
+                <p>{{ pelicula.sinopsis }}</p>
+            </div>
+            
+            <figure class="escena1">
+                    <img src="data:image/jpeg;base64, {{ pelicula.escena1 }}" alt="imagen escena">
+                    <figcaption>{{ pelicula.texto_escena1 }}</figcaption>
+            </figure>
+
+            <figure class="escena2">
+                <img src="data:image/jpeg;base64, {{ pelicula.escena2 }}" alt="imagen escena">
+                <figcaption>{{ pelicula.texto_escena2 }}</figcaption>
+            </figure>
+
+            <div class="premios">
+                <h3>Premios</h3>
+                <p>{{ pelicula.premios }}
+                </p>
+            </div>
+            
+            <div class="social-media">
+                <div class="botones-sociales">
+                    <a href="https://www.facebook.com/?locale=es_ES" target="_blank" class="social-icon facebook">
+                        <img src="../images/facebook.png" alt="Compartir en Facebook">
+                    </a>
+                    <a href="https://x.com/?lang=es" target="_blank" class="social-icon twitter">
+                        <img src="../images/x.png" alt="Compartir en Twitter">
+                    </a>
+                    <a href="pelicula_imprimir.php?id={{ pelicula.id }}" target="_blank" class="button-imprimir">
+                        Imprimir
+                    </a>
+                </div>
+            </div>
+
+            {% if galeria %}
+            <div class="galeria">
+                <h2>Galería de imágenes</h2>
+                    <div class="imagenes-galeria">
+                        {% for imagen in galeria %}
+                            <figure class="imagen-galeria">
+                                <img src="data:image/jpeg;base64, {{ imagen }}" alt="Imagen">
+                            </figure>
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+
+        </nav>
+
+{% endblock %}
+
+{% block botonComentarios %}
+
+        <button class="boton-comentarios" id="mostrarComentarios">
+            <img class="imagen-comentario" src="../images/comentario.png" alt="Comentarios">
+        </button>
+
+        <div class="panel-comentarios" id="panelComentarios">
+            <button class="boton-cerrar-comentarios" id="cerrarComentarios">x</button>
+            
+            <h2>Comentarios</h2>
+            <div id="listaComentarios">
+                <!-- Comentarios predefinidos -->
+                {% for comentario in comentarios %}
+                <div class="comentarios">
+                    <div class="comentario-header">
+                        <span class="comentario-autor">{{ comentario.nombre }}</span>
+                        <span class="comentario-fecha">{{ comentario.fecha_hora}}</span>
+                    </div>
+                    <p class="comentario-texto">{{ comentario.comentario }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="formulario-comentario">
+                <h3>Deja tu comentario</h3>
+                <form id="formulario" action="../P3/pelicula.php" method="POST">
+                    <div class="formulario-cuadro">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre">
+                    </div>
+                    
+                    <div class="formulario-cuadro">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    
+                    <div class="formulario-cuadro" id="texto_comentarios" data-palabrasProhibidas="{{ palabrasProhibidas }}">
+                        <label for="comentario">Comentario:</label>
+                        <textarea id="comentario" name="comentario"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="enviar">Enviar comentario</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de error -->
+        <div id="modalError" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal" id="cerrarModal">x</span>
+                <h3>Error</h3>
+                <p class="modal-mensaje" id="mensajeError"></p>
+                <button class="aceptar-boton" id="botonAceptarModal">Aceptar</button>
+            </div>
+        </div>
+{% endblock %}

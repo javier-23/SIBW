@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block titulo %}
+    <title>Peliculones</title>
+    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block estilos %}
+    <link rel="stylesheet" href="../css/estilos.css">
+    {% endblock %}
+    {% block script %} {% endblock %}
+</head>
+<body>
+
+    <header>
+        <img class="logo" src="../images/logo.png" alt="peliculas">
+
+        <div class="titulo-menus">
+            <h1>PELICULONES</h1>
+            <nav>
+                <ul class="menu-horizontal">
+                    <li><a href="#"><strong>Menú 1</strong></a></li>
+                    <li><a href="#"><strong>Menú 2</strong></a></li>
+                    <li><a href="#"><strong>Menú 3</strong></a></li>
+                </ul>
+            </nav>
+        </div>
+
+    </header>
+
+    <main class="centro">
+
+        {% block centro %}
+
+        <nav class="grid">
+            {% for pelicula in peliculas %}
+            <article class="item">
+                <a href="pelicula.php?id={{ pelicula['id'] }}">
+                    <figure>
+                        <img src="data:image/jpeg;base64, {{ pelicula.imagen }}" alt="Imagen">
+                        <figcaption><h3>{{ pelicula['titulo'] }}</h3></figcaption>
+                    </figure>   
+                </a>
+                
+            </article>
+            {% endfor %}
+        </nav>
+
+        {% endblock %}
+
+        <aside>
+            <h2>Enlaces de interés</h2>
+            <nav>
+                {% for tipo, enlaces_tipo in enlaces %}
+                    <p class="titulosEnlaces" id="enlaces1"> {{ tipo }}</p>
+                    {% for enlace in enlaces_tipo %}
+                        <p><a href="{{ enlace.enlace }}" target="_blank">{{ enlace.nombre }}</a></p>
+                    {% endfor %}
+                {% endfor %}
+        </aside>
+    </main>
+
+    <footer>
+        <p>Copyright: Todos los derechos reservados</p>
+        <p>2025 - Javier Mora Ortiz-Villajos</p>
+    </footer>
+
+    {% block botonComentarios %}
+    {% endblock %}
+
+</body>
+</html>

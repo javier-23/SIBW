@@ -1,8 +1,8 @@
 /.env
 /.vscode
-/config/*
+#/config/*
 /data/*
 /logs/*
-/www/**
+#/www/**
 .DS_Store
 /buildtest
