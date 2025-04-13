@@ -79,4 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         'galeria' => $galeria
     ]);
 }
+
+establecer_conexion(false);
 ?>

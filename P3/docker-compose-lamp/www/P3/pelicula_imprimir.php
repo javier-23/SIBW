@@ -25,4 +25,5 @@ echo $twig->render('pelicula_imprimir.html', [
     'pelicula' => $pelicula
 ]);
 
+establecer_conexion(false);
 ?>

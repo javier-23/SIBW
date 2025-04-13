@@ -1,7 +1,7 @@
 <?php
 // Controlador
 
-function establecer_conexion() {
+function establecer_conexion($abierta = true) {
     static $mysqli = null; // Variable estática para mantener la conexión
 
     if($mysqli === null) { // Solo se establece la conexión si no existe
@@ -10,6 +10,14 @@ function establecer_conexion() {
             echo "Error de conexión: " . $mysqli->connect_error;
             exit();
         }
+    }
+
+    if(!$abierta) { // Cerrar conexión
+        if($mysqli !== null) {
+            $mysqli->close();
+            $mysqli = null; // Reiniciar la variable estática
+        }
+        return true;
     }
 
     return $mysqli;
@@ -21,14 +29,13 @@ function get_movie($id) {
 
     if(ctype_digit((string)$id)){
         $stmt = $mysqli->prepare("SELECT * FROM peliculas WHERE id = ?");   
-        $stmt->bind_param("i", $id); // 
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $consulta = $stmt->get_result();
     } else{
         echo "Error: ID no válido.";
         return array();
     }
-
 
     $pelicula = array();
     if($consulta->num_rows > 0){
@@ -174,10 +181,10 @@ function get_palabras_prohibidas(){
 
 function get_galeria($id_pelicula){
 
-    $msqli = establecer_conexion();
+    $mysqli = establecer_conexion();
 
     if(ctype_digit((string)$id_pelicula)){
-        $stmt = $msqli->prepare("SELECT imagen FROM galeria WHERE id_pelicula = ?");
+        $stmt = $mysqli->prepare("SELECT imagen FROM galeria WHERE id_pelicula = ?");
         $stmt->bind_param("i", $id_pelicula);
         $stmt->execute();
         $consulta = $stmt->get_result();

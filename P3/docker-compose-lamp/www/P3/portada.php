@@ -12,4 +12,6 @@
         'peliculas' => $peliculas,
         'enlaces' => $enlaces
     ]);
+
+establecer_conexion(false);
 ?>
