@@ -1,0 +1,71 @@
+{% extends "login.html" %}
+
+{% block titulo %}
+    <title>Listado de Comentarios - Peliculones</title>
+{% endblock %}
+
+{% block formulario %}
+    <main class="admin-container">
+        <h2>Listado de Comentarios</h2>
+
+        <!-- Formulario de búsqueda -->
+        <div class="search-section">
+            <form action="listar_comentarios.php" method="get" class="search-form">
+                <div class="search-field">
+                    <label for="search_term">Buscar comentario:</label>
+                    <input type="text" id="search_term" name="search_term" placeholder="Texto, usuario o película" value="{{ search_term|default('') }}">
+                </div>
+                <div class="search-actions">
+                    <button type="submit" class="search-button">Buscar</button>
+                    <a href="listar_comentarios.php" class="reset-button">Limpiar búsqueda</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Lista de comentarios -->
+        <div class="comments-list">
+            {% if comentarios %}
+                <table class="comments-table">
+                    <thead> 
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Película</th>
+                            <th>Comentario</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comentario in comentarios %}
+                            <tr>
+                                <td>{{ comentario.nombre_usuario }}</td>
+                                <td>
+                                    <a href="pelicula.php?id={{ comentario.id_pelicula }}" class="movie-link">
+                                        {{ comentario.titulo_pelicula }}
+                                    </a>
+                                </td>
+                                <td class="comment-text">
+                                    {{ comentario.comentario }}
+                                </td>
+                                <td>{{ comentario.fecha_hora }}</td>
+                                <td>
+                                    {% if comentario.modificado %}
+                                        <span class="status-edited">Editado</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="no-results">
+                    <p>No hay comentarios disponibles.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="back-link">
+            <a href="portada.php">Volver a la portada</a>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "portada.html" %}
+
+{% block titulo%}
+<title>Peliculones: {{ pelicula.titulo }}</title>
+{% endblock %}
+
+{% block cabecera %}
+    <header> 
+        <img class="logo" src="../images/logo.png" alt="peliculas">
+        <h1>PELICULONES</h1>
+    </header>
+{% endblock %}
+
+{% block script %}
+    <script src="../js/comentarios.js"></script>
+{% endblock %}
+
+{% block centro %}    
+        <nav class="grid-pelicula">
+            <div class="info-basica">
+            <h2> {{ pelicula.titulo }}
+                {% if user and (user.rol == 'gestor' or user.rol == 'superusuario') %}
+                    <div class="admin-actions">
+                        <a href="editar_pelicula.php?id={{ pelicula.id }}" class="admin-btn edit-btn" title="Editar película">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="gestionar_galeria.php?id={{ pelicula.id }}" class="admin-btn gallery-btn" title="Gestionar galería">
+                            <i class="fas fa-images"></i>
+                        </a>
+                    </div>
+                {% endif %}
+            </h2>
+
+                <div class="datos">
+                    <p><strong>Fecha de estreno:</strong> {{ pelicula.fecha_estreno }}</p>
+                    <p><strong>Género:</strong> {{ pelicula.genero }}</p>
+                    <p><strong>Director:</strong> {{ pelicula.director }}</p>
+                    <p><strong>Actores principales:</strong> {{ pelicula.actores_principales }}</p>
+                </div>
+            
+                <h3>Sinopsis</h3>
+                <p>{{ pelicula.sinopsis }}</p>
+
+                {% if pelicula.hashtags %}
+                    <div class="hashtags-container">
+                        {% for tag in pelicula.hashtags|split(',') %}
+                            <span class="hashtag">#{{ tag|trim }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <figure class="escena1">
+                    <img src="../{{ pelicula.escena1 }}" alt="imagen escena">
+                    <figcaption>{{ pelicula.texto_escena1 }}</figcaption>
+            </figure>
+
+            <figure class="escena2">
+                <img src="../{{ pelicula.escena2 }}" alt="imagen escena">
+                <figcaption>{{ pelicula.texto_escena2 }}</figcaption>
+            </figure>
+
+            <div class="premios">
+                <h3>Premios</h3>
+                <p>{{ pelicula.premios }}
+                </p>
+            </div>
+            
+            <div class="social-media">
+                <div class="botones-sociales">
+                    <a href="https://www.facebook.com/?locale=es_ES" target="_blank" class="social-icon facebook">
+                        <img src="../images/facebook.png" alt="Compartir en Facebook">
+                    </a>
+                    <a href="https://x.com/?lang=es" target="_blank" class="social-icon twitter">
+                        <img src="../images/x.png" alt="Compartir en Twitter">
+                    </a>
+                    <a href="pelicula_imprimir.php?id={{ pelicula.id }}" target="_blank" class="button-imprimir">
+                        Imprimir
+                    </a>
+                </div>
+            </div>
+
+            {% if galeria %}
+            <div class="galeria">
+                <h2>Galería de imágenes</h2>
+                    <div class="imagenes-galeria">
+                        {% for imagenes in galeria %}
+                            <figure class="imagen-galeria">
+                                <img src="../{{ imagenes.imagen }}" alt="Imagen">
+                            </figure>
+                        {% endfor %}
+                    </div>
+            </div>
+            {% endif %}
+
+        </nav>
+
+{% endblock %}
+
+{% block botonComentarios %}
+
+        <button class="boton-comentarios" id="mostrarComentarios">
+            <img class="imagen-comentario" src="../images/comentario.png" alt="Comentarios">
+        </button>
+
+        <div class="panel-comentarios" id="panelComentarios">
+            <button class="boton-cerrar-comentarios" id="cerrarComentarios">x</button>
+            
+            <h2>Comentarios</h2>
+            <div id="listaComentarios">
+                <!-- Comentarios predefinidos -->
+                {% for comentario in comentarios %}
+                    <div class="comentarios">
+                        <div class="comentario-header">
+                            <span class="comentario-autor">{{ comentario.nombre }}</span>
+                            <span class="comentario-fecha">{{ comentario.fecha_hora}}</span>
+                            {% if comentario.modificado %}
+                                <span class="editado-tag">(editado)</span>
+                            {% endif %}
+                        </div>
+                        <div class="comentario-body">
+                            <p class="comentario-texto">{{ comentario.comentario }}</p>
+
+                            <!-- Formulario para editar comentario -->
+                            {% if user and (user.rol == 'moderador' or user.rol == 'superusuario') %}
+                            <form class="edit-comment-form" style="display: none;" data-comment-id="{{ comentario.id }}">
+                                <textarea class="edit-textarea">{{ comentario.comentario }}</textarea>
+                                <div class="edit-actions">
+                                    <button type="button" class="save-edit-btn">Guardar</button>
+                                    <button type="button" class="cancel-edit-btn">Cancelar</button>
+                                </div>
+                            </form>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botones para editar o borrar -->
+                        {% if user and (user.rol == 'moderador' or user.rol == 'superusuario') %}
+                        <div class="comentario-actions">
+                            <button class="edit-comentario-btn" data-comment-id="{{ comentario.id }}">Editar</button>
+                            <button class="delete-comentario-btn" data-comment-id="{{ comentario.id }}">Eliminar</button>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="formulario-comentario">
+                <h3>Deja tu comentario</h3>
+                
+                {% if user %}
+                    <form id="formulario" action="../P3/pelicula.php" method="POST" data-usuario-nombre="{{ user.nombre }}">
+                        
+                        <div class="formulario-cuadro" id="texto_comentarios" data-palabrasProhibidas="{{ palabrasProhibidas }}">
+                            <label for="comentario">Comentario:</label>
+                            <textarea id="comentario" name="comentario"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="enviar">Enviar comentario</button>
+                    </form>
+                {% else %}
+                    <div id="mensaje-login" class="mensaje-login">
+                        <p class="mensaje-login">Para dejar un comentario, <a href="login.php">inicia sesión</a> o <a href="registro.php">regístrate</a>.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Modal de error -->
+        <div id="modalError" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar-modal" id="cerrarModal">x</span>
+                <h3>Error</h3>
+                <p class="modal-mensaje" id="mensajeError"></p>
+                <button class="aceptar-boton" id="botonAceptarModal">Aceptar</button>
+            </div>
+        </div>
+{% endblock %}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block titulo %}
+    <title>Peliculones</title>
+    {% endblock %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block estilos %}
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    {% endblock %}
+
+    {% block script %} {% endblock %}
+
+    <link rel="icon" href="../images/logo.png" type="image/png">
+</head>
+<body>
+
+    <header>
+        {% block logo %}
+        <img class="logo" src="../images/logo.png" alt="peliculas">
+        {% endblock %}
+
+        <div class="titulo-menus">
+            <h1>PELICULONES</h1>
+            <nav>
+                <ul class="menu-horizontal">
+                    <li><a href="#"><strong>Menú 1</strong></a></li>
+                    <li><a href="#"><strong>Menú 2</strong></a></li>
+                    <li><a href="#"><strong>Menú 3</strong></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Añadir el menú de usuario -->
+         {% block menuUsuario %}
+        <div class="usuario-menu">
+            {% if user %}
+                <div class="dropdown">
+                    <button class="dropbtn">{{ user.nombre }} 
+                        <i class="fa-solid fa-angle-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        
+                        <a href="perfil.php">Mi Perfil</a>
+
+                        {% if user.rol == 'moderador' or user.rol == 'superusuario' %}
+                            <a href="listar_comentarios.php">Lista comentarios</a>
+                        {% endif %}
+
+                        {% if user.rol == 'gestor' or user.rol == 'superusuario' %}
+                            <a href="gestionar_peliculas.php">Gestionar películas</a>
+                        {% endif %}
+                        
+                        {% if user.rol == 'superusuario' %}
+                            <a href="superusuario.php">Gestionar usuarios</a>
+                        {% endif %}
+                        
+                        <a href="logout.php">Cerrar Sesión</a>
+
+                    </div>
+                </div>
+            {% else %}
+                <div class="auth-buttons">
+                    <a href="login.php" class="login-button">Login</a>
+                </div>
+            {% endif %}
+        </div>
+        {% endblock %}
+
+    </header>
+
+    <main class="centro">
+
+        {% block centro %}
+
+        <nav class="grid">
+            {% for pelicula in peliculas %}
+            <article class="item">
+                <a href="pelicula.php?id={{ pelicula['id'] }}">
+                    <figure>
+                        <img src="../{{ pelicula.imagen }}" alt="Imagen">
+                        <figcaption><h3>{{ pelicula['titulo'] }}</h3></figcaption>
+                    </figure>   
+                </a>
+                
+            </article>
+            {% endfor %}
+        </nav>
+
+        {% endblock %}
+
+        <aside>
+            <h2>Enlaces de interés</h2>
+            <nav>
+                {% for tipo, enlaces_tipo in enlaces %}
+                    <p class="titulosEnlaces" id="enlaces1"> {{ tipo }}</p>
+                    {% for enlace in enlaces_tipo %}
+                        <p><a href="{{ enlace.enlace }}" target="_blank">{{ enlace.nombre }}</a></p>
+                    {% endfor %}
+                {% endfor %}
+        </aside>
+    </main>
+
+    <footer>
+        <p>Copyright: Todos los derechos reservados</p>
+        <p>2025 - Javier Mora Ortiz-Villajos</p>
+    </footer>
+
+    {% block botonComentarios %}
+    {% endblock %}
+
+</body>
+</html>
