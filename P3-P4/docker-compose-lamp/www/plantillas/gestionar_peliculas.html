@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block formulario %}
+
     <div class="admin-container">
         <h2>Gestión de Películas</h2>
         
@@ -54,6 +55,7 @@
                             <th>Fecha de estreno</th>
                             <th>Género</th>
                             <th>Hashtags</th>
+                            <th>Publicada</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -74,6 +76,13 @@
                                         {% endfor %}
                                     {% else %}
                                         <span class="no-tags">Sin hashtags</span>
+                                    {% endif %}
+                                </td>
+                                <td style="text-align: center;">
+                                    {% if pelicula.publicada %}
+                                        <span><i class="fas fa-check" style="color: rgb(79, 158, 0);"></i></span>
+                                    {% else %}
+                                        <span><i class="fas fa-xmark" style="color: rgb(117, 18, 18);"></i></span>
                                     {% endif %}
                                 </td>
                                 <td class="actions">
@@ -107,6 +116,4 @@
         </div>
     </div>
     
-    <!-- Añadir FontAwesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% endblock %}

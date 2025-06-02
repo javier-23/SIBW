@@ -13,7 +13,7 @@
     if (isset($_SESSION['email'])) {
         $user = getUser($_SESSION['email']);
     }
-
+    
     $peliculas = get_all_movies();
     $enlaces = get_enlaces();
 

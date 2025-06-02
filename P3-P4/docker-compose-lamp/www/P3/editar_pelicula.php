@@ -55,10 +55,11 @@
         $hashtags = trim($_POST['hashtags']);
         $texto_escena1 = trim($_POST['texto_escena1']);
         $texto_escena2 = trim($_POST['texto_escena2']);
+        $publicada = isset($_POST['publicada']) ? 1 : 0;
 
         // Validar datos
-        if (empty($titulo) || empty($director) || empty($fecha_estreno) || empty($genero) || empty($sinopsis)) {
-            $error = 'Por favor, completa todos los campos obligatorios (título, director, fecha, género y sinopsis)';
+        if (empty($titulo) || empty($director)) {
+            $error = 'Por favor, completa todos los campos obligatorios (título y director)';
         } else {
             // Procesar imágenes si se han subido
             $imagen = null;
@@ -120,7 +121,7 @@
                         $escena2_path = $pelicula_actual['escena2'];
                     }
                     
-                    $resultado = actualizar_pelicula($id, $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen_path, $escena1_path, $escena2_path, $texto_escena1, $texto_escena2, $hashtags);
+                    $resultado = actualizar_pelicula($id, $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen_path, $escena1_path, $escena2_path, $texto_escena1, $texto_escena2, $hashtags, $publicada);
                     
                     if ($resultado) {
                         $_SESSION['success_message'] = 'Película actualizada correctamente';
@@ -131,18 +132,14 @@
                     }
                 } else {
                     // Crear nueva película
-                    if (empty($imagen_path)) {
-                        $error = 'La imagen principal es obligatoria para crear una nueva película';
+                    $resultado = crear_pelicula($titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen_path, $escena1_path, $escena2_path, $texto_escena1, $texto_escena2, $hashtags, $publicada);
+                    
+                    if ($resultado) {
+                        $_SESSION['success_message'] = 'Película creada correctamente';
+                        header('Location: gestionar_peliculas.php');
+                        exit();
                     } else {
-                        $resultado = crear_pelicula($titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen_path, $escena1_path, $escena2_path, $texto_escena1, $texto_escena2, $hashtags);
-                        
-                        if ($resultado) {
-                            $_SESSION['success_message'] = 'Película creada correctamente';
-                            header('Location: gestionar_peliculas.php');
-                            exit();
-                        } else {
-                            $error = 'Error al crear la película en la base de datos';
-                        }
+                        $error = 'Error al crear la película en la base de datos';
                     }
                 }
             }

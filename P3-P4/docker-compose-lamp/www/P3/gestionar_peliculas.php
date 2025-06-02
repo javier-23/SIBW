@@ -52,7 +52,7 @@
     $search_term = isset($_GET['search_term']) ? $_GET['search_term'] : '';
 
     // Obtener listado de películas (filtrado si hay búsqueda)
-    $peliculas = !empty($search_term) ? buscar_peliculas($search_term) : get_all_movies_admin();
+    $peliculas = !empty($search_term) ? buscar_peliculas($search_term) : get_all_movies();
 
     echo $twig->render('gestionar_peliculas.html', [
         'success' => $success,

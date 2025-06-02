@@ -45,7 +45,8 @@ function get_movie($id) {
             'escena2' => $row['escena2'],   //!is_null($row['escena2']) ? base64_encode($row['escena2']) : '',
             'texto_escena1' => $row['texto_escena1'],
             'texto_escena2' => $row['texto_escena2'],
-            'hashtags' => $row['hashtags']
+            'hashtags' => $row['hashtags'],
+            'publicada' => $row['publicada'],
         );
     }
 
@@ -72,7 +73,8 @@ function get_all_movies() {
                 'director' => $row['director'],
                 'actores_principales' => $row['actores_principales'],
                 'premios' => $row['premios'],
-                'imagen' => $row['imagen'] //!is_null($row['imagen']) ? base64_encode($row['imagen']) : '',
+                'imagen' => $row['imagen'], //!is_null($row['imagen']) ? base64_encode($row['imagen']) : '',
+                'publicada' => $row['publicada'],
             );
         }
     }
@@ -297,36 +299,6 @@ function get_all_comentarios(){
 }
 
 /* Gestionar pelis */
-function get_all_movies_admin() {
-    $mysqli = establecer_conexion();
-
-    $consulta = $mysqli->query("SELECT * FROM peliculas ORDER BY titulo ASC");
-    
-    $peliculas = array();
-    
-    if($consulta->num_rows > 0){
-        while($row = $consulta->fetch_assoc()) {
-            $peliculas[] = array(
-                'id' => $row['id'],
-                'titulo' => $row['titulo'],
-                'fecha_estreno' => $row['fecha_estreno'],
-                'genero' => $row['genero'],
-                'sinopsis' => $row['sinopsis'],
-                'director' => $row['director'],
-                'actores_principales' => $row['actores_principales'],
-                'premios' => $row['premios'],
-                'imagen' => $row['imagen'],
-                'escena1' => $row['escena1'],
-                'escena2' => $row['escena2'],
-                'texto_escena1' => $row['texto_escena1'],
-                'texto_escena2' => $row['texto_escena2'],
-                'hashtags' => $row['hashtags'] ?? ''
-            );
-        }
-    }
-    
-    return $peliculas;
-}
 
 function buscar_peliculas($search_term) {
     $mysqli = establecer_conexion();
@@ -337,9 +309,15 @@ function buscar_peliculas($search_term) {
                              WHERE titulo LIKE ? 
                              OR sinopsis LIKE ? 
                              OR director LIKE ?
-                             OR hashtags LIKE ?");
+                             OR hashtags LIKE ?
+                             OR genero LIKE ?
+                             OR actores_principales LIKE ?
+                             OR premios LIKE ?
+                             OR texto_escena1 LIKE ?
+                             OR texto_escena2 LIKE ?");
     
-    $stmt->bind_param("ssss", $search_param, $search_param, $search_param, $search_param);
+    $stmt->bind_param("sssssssss", $search_param, $search_param, $search_param, $search_param, 
+                      $search_param, $search_param, $search_param, $search_param, $search_param);
     $stmt->execute();
     
     $resultado = $stmt->get_result();
@@ -370,31 +348,68 @@ function buscar_peliculas($search_term) {
     return $peliculas;
 }
 
-function crear_pelicula($titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags) {
+function buscar_peliculas_ajax($search_term) {
+    $mysqli = establecer_conexion();
+    
+    $search_param = "%$search_term%";
+    
+    $stmt = $mysqli->prepare("SELECT id, titulo, imagen FROM peliculas 
+                             WHERE (titulo LIKE ? 
+                             OR sinopsis LIKE ? 
+                             OR director LIKE ?
+                             OR hashtags LIKE ?
+                             OR genero LIKE ?
+                             OR actores_principales LIKE ?
+                             OR premios LIKE ?
+                             OR texto_escena1 LIKE ?
+                             OR texto_escena2 LIKE ?) AND publicada = 1");
+    
+    $stmt->bind_param("sssssssss", $search_param, $search_param, $search_param, $search_param, 
+                      $search_param, $search_param, $search_param, $search_param, $search_param);
+    $stmt->execute();
+    
+    $resultado = $stmt->get_result();
+    $peliculas = array();
+    
+    if($resultado->num_rows > 0){
+        while($row = $resultado->fetch_assoc()) {
+            $peliculas[] = array(
+                'id' => $row['id'],
+                'titulo' => $row['titulo'],
+                'imagen' => $row['imagen'],
+            );
+        }
+    }
+    
+    $stmt->close();
+    return $peliculas;
+}
+
+function crear_pelicula($titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags, $publicada = 0) {
     $mysqli = establecer_conexion();
     
     $stmt = $mysqli->prepare("INSERT INTO peliculas 
-                             (titulo, director, fecha_estreno, genero, actores_principales, sinopsis, premios, imagen, escena1, escena2, texto_escena1, texto_escena2, hashtags) 
-                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                             (titulo, director, fecha_estreno, genero, actores_principales, sinopsis, premios, imagen, escena1, escena2, texto_escena1, texto_escena2, hashtags, publicada) 
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    $stmt->bind_param("sssssssssssss", $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags);
+    $stmt->bind_param("sssssssssssssi", $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags, $publicada);
     $resultado = $stmt->execute();
     
     $stmt->close();
     return $resultado;
 }
 
-function actualizar_pelicula($id, $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags) {
+function actualizar_pelicula($id, $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags, $publicada) {
     $mysqli = establecer_conexion();
     
     $stmt = $mysqli->prepare("UPDATE peliculas 
                              SET titulo = ?, director = ?, fecha_estreno = ?, genero = ?, 
                              actores_principales = ?, sinopsis = ?, premios = ?, imagen = ?, 
                              escena1 = ?, escena2 = ?, texto_escena1 = ?, texto_escena2 = ?, 
-                             hashtags = ? 
+                             hashtags = ? , publicada = ?
                              WHERE id = ?");
     
-    $stmt->bind_param("sssssssssssssi", $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags, $id);
+    $stmt->bind_param("sssssssssssssii", $titulo, $director, $fecha_estreno, $genero, $actores, $sinopsis, $premios, $imagen, $escena1, $escena2, $texto_escena1, $texto_escena2, $hashtags, $publicada, $id);
     $resultado = $stmt->execute();
     
     $stmt->close();

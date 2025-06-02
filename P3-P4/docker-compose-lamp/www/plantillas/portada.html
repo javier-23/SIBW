@@ -13,6 +13,8 @@
     {% endblock %}
 
     {% block script %} {% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../js/ajax.js"></script>
 
     <link rel="icon" href="../images/logo.png" type="image/png">
 </head>
@@ -24,7 +26,9 @@
         {% endblock %}
 
         <div class="titulo-menus">
-            <h1>PELICULONES</h1>
+            <a href="portada.php" class="enlace-titulo">
+                <h1>PELICULONES</h1>
+            </a>
             <nav>
                 <ul class="menu-horizontal">
                     <li><a href="#"><strong>Menú 1</strong></a></li>
@@ -75,18 +79,31 @@
     <main class="centro">
 
         {% block centro %}
-
+        
         <nav class="grid">
+            <div class="buscador">
+                <div class="buscador-icono">
+                    <input type="text" name="buscar" placeholder="Buscar películas...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <div id="resultados-busqueda" class="resultados-dropdown"></div>
+                </div>
+            </div>
+
             {% for pelicula in peliculas %}
-            <article class="item">
-                <a href="pelicula.php?id={{ pelicula['id'] }}">
-                    <figure>
-                        <img src="../{{ pelicula.imagen }}" alt="Imagen">
-                        <figcaption><h3>{{ pelicula['titulo'] }}</h3></figcaption>
-                    </figure>   
-                </a>
-                
-            </article>
+                {% if pelicula.publicada or user.rol == 'superusuario' or user.rol == 'gestor' %}
+                <article class="item"
+                {% if not pelicula.publicada %}
+                    style="opacity: 0.5;"
+                {% endif %}>
+
+                    <a href="pelicula.php?id={{ pelicula['id'] }}">
+                        <figure>
+                            <img class="portadas" src="../{{ pelicula.imagen }}" alt="Imagen">
+                            <figcaption><h3>{{ pelicula['titulo'] }}</h3></figcaption>
+                        </figure>   
+                    </a>
+                </article>
+                {% endif %}
             {% endfor %}
         </nav>
 

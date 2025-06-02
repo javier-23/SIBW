@@ -125,6 +125,12 @@
                     <input type="text" id="texto_escena2" name="texto_escena2" value="{{ pelicula ? pelicula.texto_escena2 : '' }}">
                 </div>
             </div>
+
+            <div class="form-group-editar-pelicula">
+                <label for="publicada">Publicada</label>
+                <input type="checkbox" id="publicada" name="publicada" value="1" {% if pelicula and pelicula.publicada %}checked{% endif %}>
+                Marca para publicar la película/Desmarca para ocultarla
+            </div>
             
             <div class="form-buttons">
                 <button type="submit" class="submit-save-button">{{ modo == 'crear' ? 'Crear Película' : 'Guardar Cambios' }}</button>
