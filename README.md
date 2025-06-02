@@ -55,4 +55,4 @@ Se añade nuevas funcionalidades a la página:
 - Las películas pueden estar en estado publicado o no publicado, de cara a que el usuario pueda verla o no por si alguna de estas no se ha completado parte de su información. El gesto será el encargado de ver todas las películas que aún no se encuentran publicadas y ponerlas disponibles para el resto de usuarios.
 </p>
 
-![](https://github.com/javier-23/SIBW/blob/6eea43b20ce654ddf37f8e5e0e2db963ae221af5/imagenesProyecto/capturaP5.png)
+> ![](https://github.com/javier-23/SIBW/blob/b0bd791f7c865ffd6ed95f3123ab44a7270d698e/imagenesProyecto/capturaP5.png)
