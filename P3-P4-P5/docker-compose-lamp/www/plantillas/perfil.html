@@ -1,0 +1,55 @@
+{% extends "login.html" %}
+
+{% block titulo %}
+    <title>Mi Perfil - Peliculones</title>
+{% endblock %}
+
+{% block formulario %}
+    <div class="auth-container">
+        <h2>Mi Perfil</h2>
+        
+        {% if mensaje %}
+        <div class="success-message">
+            {{ mensaje }}
+        </div>
+        {% endif %}
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form action="perfil.php" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="{{ user.nombre }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Nueva contraseña </label>
+                <input type="password" id="password" name="password">
+            </div>
+            
+            <div class="form-group">
+                <label for="password_confirm">Confirmar nueva contraseña</label>
+                <input type="password" id="password_confirm" name="password_confirm">
+            </div>
+            
+            <div class="form-group">
+                <label>Rol: {{ user.rol }}</label>
+            </div>
+            
+            <button type="submit" class="submit-button">Guardar Cambios</button>
+
+            <div class="back-link">
+                <a href="portada.php">Volver a la portada</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

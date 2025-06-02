@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% block titulo %}
+    <title>Iniciar Sesión - Peliculones</title>
+    {% endblock %}
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Añadir FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    {% block styles %}
+    <link rel="stylesheet" href="../css/estilos.css">
+    {% endblock %}
+</head>
+
+<body class="body-login-registro">
+
+    {% block formulario %}
+    <main class="auth-container">
+        <h2>Iniciar Sesión</h2>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <form action="login.php" method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" id="contraseña" name="contraseña" required>
+            </div>
+            
+            <button type="submit" class="submit-button">Iniciar Sesión</button>
+        </form>
+        
+        <div class="form-footer">
+            <p>¿No tienes una cuenta? <a href="registro.php">Regístrate</a></p>
+        </div>
+
+        <div class="back-link">
+                <a href="portada.php">Volver a la portada</a>
+        </div>
+    </main>
+    {% endblock %}
+
+</body>

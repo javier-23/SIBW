@@ -1,0 +1,141 @@
+{% extends "login.html" %}
+
+{% block titulo %}
+    <title>Editar pelicula - Peliculones</title>
+{% endblock %}
+
+{% block formulario %}
+    <div class="admin-container-editar-pelicula">
+        <h2>{% if modo == 'crear' %}
+            Añadir Película
+            {% else %}
+            Editar Película
+            {% endif %}
+        </h2>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if success %}
+        <div class="success-message">
+            {{ success }}
+        </div>
+        {% endif %}
+        
+        <form action="editar_pelicula.php" method="post" enctype="multipart/form-data" class="movie-form">
+            <!-- Campo oculto para el ID en caso de edición -->
+            {% if pelicula %}
+                <input type="hidden" name="id" value="{{ pelicula.id }}">
+            {% endif %}
+            
+            <div class="form-row">
+                <div class="form-group-editar-pelicula">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" value="{{ pelicula ? pelicula.titulo : '' }}" required>
+                </div>
+                
+                <div class="form-group-editar-pelicula">
+                    <label for="director">Director</label>
+                    <input type="text" id="director" name="director" value="{{ pelicula ? pelicula.director : '' }}" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group-editar-pelicula">
+                    <label for="fecha_estreno">Fecha de Estreno</label>
+                    <input type="date" id="fecha_estreno" name="fecha_estreno" value="{{ pelicula ? pelicula.fecha_estreno : '' }}" required>
+                </div>
+                
+                <div class="form-group-editar-pelicula">
+                    <label for="genero">Género</label>
+                    <input type="text" id="genero" name="genero" value="{{ pelicula ? pelicula.genero : '' }}" required>
+                </div>
+            </div>
+            
+            <div class="form-group-editar-pelicula">
+                <label for="actores_principales">Actores Principales</label>
+                <input type="text" id="actores_principales" name="actores_principales" value="{{ pelicula ? pelicula.actores_principales : '' }}">
+            </div>
+            
+            <div class="form-group-editar-pelicula">
+                <label for="sinopsis">Sinopsis</label>
+                <textarea id="sinopsis" name="sinopsis" rows="5" required>{{ pelicula ? pelicula.sinopsis : '' }}</textarea>
+            </div>
+            
+            <div class="form-group-editar-pelicula">
+                <label for="premios">Premios</label>
+                <textarea id="premios" name="premios" rows="3">{{ pelicula ? pelicula.premios : '' }}</textarea>
+            </div>
+            
+            <div class="form-group-editar-pelicula">
+                <label for="hashtags">Hashtags (separados por comas)</label>
+                <small>Introduce las etiquetas sin el símbolo #, separadas por comas</small>
+                <input type="text" id="hashtags" name="hashtags" value="{{ pelicula ? pelicula.hashtags : '' }}" placeholder="Ejemplo: accion, comedia, drama">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group-editar-pelicula">
+                    <label for="imagen">Portada</label>
+                    {% if pelicula and pelicula.imagen %}
+                        <div class="image-preview">
+                            <img src="../{{ pelicula.imagen }}" alt="Imagen actual">
+                            <p>Imagen actual</p>
+                        </div>
+                    {% endif %}
+                    <input type="file" id="imagen" name="imagen" accept="image/*" {{ modo == 'crear' ? 'required' : '' }}>
+                    <small>Formatos permitidos: JPG, PNG, entre otros.</small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group-editar-pelicula">
+                    <label for="escena1">Imagen Escena 1</label>
+                    {% if pelicula and pelicula.escena1 %}
+                        <div class="image-preview">
+                            <img src="../{{ pelicula.escena1 }}" alt="Escena 1 actual">
+                            <p>Escena 1 actual</p>
+                        </div>
+                    {% endif %}
+                    <input type="file" id="escena1" name="escena1" accept="image/*">
+                </div>
+                
+                <div class="form-group-editar-pelicula">
+                    <label for="texto_escena1">Descripción Escena 1</label>
+                    <input type="text" id="texto_escena1" name="texto_escena1" value="{{ pelicula ? pelicula.texto_escena1 : '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group-editar-pelicula">
+                    <label for="escena2">Imagen Escena 2</label>
+                    {% if pelicula and pelicula.escena2 %}
+                        <div class="image-preview">
+                            <img src="../{{ pelicula.escena2 }}" alt="Escena 2 actual">
+                            <p>Escena 2 actual</p>
+                        </div>
+                    {% endif %}
+                    <input type="file" id="escena2" name="escena2" accept="image/*">
+                </div>
+                
+                <div class="form-group-editar-pelicula">
+                    <label for="texto_escena2">Descripción Escena 2</label>
+                    <input type="text" id="texto_escena2" name="texto_escena2" value="{{ pelicula ? pelicula.texto_escena2 : '' }}">
+                </div>
+            </div>
+
+            <div class="form-group-editar-pelicula">
+                <label for="publicada">Publicada</label>
+                <input type="checkbox" id="publicada" name="publicada" value="1" {% if pelicula and pelicula.publicada %}checked{% endif %}>
+                Marca para publicar la película/Desmarca para ocultarla
+            </div>
+            
+            <div class="form-buttons">
+                <button type="submit" class="submit-save-button">{{ modo == 'crear' ? 'Crear Película' : 'Guardar Cambios' }}</button>
+                <a href="gestionar_peliculas.php" class="cancel-button-gestionar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
