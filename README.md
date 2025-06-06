@@ -48,5 +48,11 @@ Los tipos de usuarios serán: anónimo, registrado (puede incluir comentarios en
 
 ## Práctica 5: AJAX
 <p align="justify">
-
+Se añade nuevas funcionalidades a la página:
+  
+- Barra de búsqueda estilo Google para ir mostrando los nombres de las películas según coincida con la cadena de búsqueda y accediendo al pulsar sobre ella. Para ello se hace uso de AJAX.
+  
+- Las películas pueden estar en estado publicado o no publicado, de cara a que el usuario pueda verla o no por si alguna de estas no se ha completado parte de su información. El gesto será el encargado de ver todas las películas que aún no se encuentran publicadas y ponerlas disponibles para el resto de usuarios.
 </p>
+
+> ![](https://github.com/javier-23/SIBW/blob/b0bd791f7c865ffd6ed95f3123ab44a7270d698e/imagenesProyecto/capturaP5.png)
