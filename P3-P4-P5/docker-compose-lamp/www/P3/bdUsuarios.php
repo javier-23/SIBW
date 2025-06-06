@@ -39,7 +39,7 @@ function checkLogin($email, $pass) {
   }
 
   // Registra un nuevo usuario
-  function registerUser($nombre, $email, $pass) {
+  function registroUsuario($nombre, $email, $pass) {
     
     $mysqli = establecer_conexion();
 

@@ -3,19 +3,18 @@
 
   $loader = new \Twig\Loader\FilesystemLoader('../plantillas');
   $twig = new \Twig\Environment($loader);
-  
-  include('bd.php');
+
   include('bdUsuarios.php');
 
   $error = null;
   $success = null;
-  
+
   // Si ya está logueado, redirigir a portada
   if (isset($_SESSION['email'])) {
     header("Location: portada.php");
     exit();
   }
-  
+
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
@@ -37,10 +36,9 @@
     }
     else {
       // Intentar registrar el usuario
-      $result = registerUser($nombre, $email, $password);
+      $result = registroUsuario($nombre, $email, $password);
       
       if ($result) {
-        session_start();
         $success = "Registro exitoso. Ya puedes iniciar sesión.";
         header("Location: login.php");
       } else {
@@ -48,7 +46,7 @@
       }
     }
   }
-  
+
   echo $twig->render('registro.html', [
     'error' => $error,
     'success' => $success

@@ -58,7 +58,8 @@ function get_all_movies() {
     
     $mysqli = establecer_conexion();
 
-    $consulta = $mysqli->query("SELECT * FROM peliculas");
+    $consulta = $mysqli->query("SELECT id, titulo, fecha_estreno, genero, director, imagen, publicada, hashtags 
+                                FROM peliculas");
     
     $peliculas = array();
     
@@ -69,12 +70,10 @@ function get_all_movies() {
                 'titulo' => $row['titulo'],
                 'fecha_estreno' => $row['fecha_estreno'],
                 'genero' => $row['genero'],
-                'sinopsis' => $row['sinopsis'],
                 'director' => $row['director'],
-                'actores_principales' => $row['actores_principales'],
-                'premios' => $row['premios'],
                 'imagen' => $row['imagen'], //!is_null($row['imagen']) ? base64_encode($row['imagen']) : '',
                 'publicada' => $row['publicada'],
+                'hashtags' => $row['hashtags'],
             );
         }
     }
@@ -305,7 +304,8 @@ function buscar_peliculas($search_term) {
     
     $search_param = "%$search_term%"; // Agregar comodines para LIKE
     
-    $stmt = $mysqli->prepare("SELECT * FROM peliculas 
+    $stmt = $mysqli->prepare("SELECT id, titulo, fecha_estreno, genero, director, imagen, hashtags, publicada  
+                             FROM peliculas 
                              WHERE titulo LIKE ? 
                              OR sinopsis LIKE ? 
                              OR director LIKE ?
@@ -330,16 +330,10 @@ function buscar_peliculas($search_term) {
                 'titulo' => $row['titulo'],
                 'fecha_estreno' => $row['fecha_estreno'],
                 'genero' => $row['genero'],
-                'sinopsis' => $row['sinopsis'],
                 'director' => $row['director'],
-                'actores_principales' => $row['actores_principales'],
-                'premios' => $row['premios'],
                 'imagen' => $row['imagen'],
-                'escena1' => $row['escena1'],
-                'escena2' => $row['escena2'],
-                'texto_escena1' => $row['texto_escena1'],
-                'texto_escena2' => $row['texto_escena2'],
-                'hashtags' => $row['hashtags'] ?? ''
+                'hashtags' => $row['hashtags'],
+                'publicada' => $row['publicada'],
             );
         }
     }

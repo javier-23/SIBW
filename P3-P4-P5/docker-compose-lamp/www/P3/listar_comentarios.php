@@ -1,6 +1,5 @@
 <?php
     require_once '/usr/local/lib/php/vendor/autoload.php';
-    include('bd.php');
     include('bdUsuarios.php');
 
     $loader = new \Twig\Loader\FilesystemLoader('../plantillas');

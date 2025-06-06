@@ -46,12 +46,12 @@
             <div class="form-row">
                 <div class="form-group-editar-pelicula">
                     <label for="fecha_estreno">Fecha de Estreno</label>
-                    <input type="date" id="fecha_estreno" name="fecha_estreno" value="{{ pelicula ? pelicula.fecha_estreno : '' }}" required>
+                    <input type="date" id="fecha_estreno" name="fecha_estreno" value="{{ pelicula ? pelicula.fecha_estreno : '' }}">
                 </div>
                 
                 <div class="form-group-editar-pelicula">
                     <label for="genero">Género</label>
-                    <input type="text" id="genero" name="genero" value="{{ pelicula ? pelicula.genero : '' }}" required>
+                    <input type="text" id="genero" name="genero" value="{{ pelicula ? pelicula.genero : '' }}">
                 </div>
             </div>
             
@@ -85,7 +85,7 @@
                             <p>Imagen actual</p>
                         </div>
                     {% endif %}
-                    <input type="file" id="imagen" name="imagen" accept="image/*" {{ modo == 'crear' ? 'required' : '' }}>
+                    <input type="file" id="imagen" name="imagen" accept="image/*">
                     <small>Formatos permitidos: JPG, PNG, entre otros.</small>
                 </div>
             </div>

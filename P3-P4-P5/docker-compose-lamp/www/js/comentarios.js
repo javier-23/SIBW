@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const comentarioForm = document.getElementById('comentario');
     const textoComentarios = document.getElementById('texto_comentarios');
     
-    let palabrasProhibidas = [];
+    const palabrasProhibidas = [];
     if(textoComentarios)
         palabrasProhibidas = JSON.parse(textoComentarios.getAttribute('data-palabrasProhibidas'));
 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const datos = {
                 idPelicula: parseInt(new URLSearchParams(window.location.search).get('id')),
                 nombre: nombreUsuario,
-                comentario: comentarioForm?.value?.trim() || '',
+                comentario: comentarioForm.value.trim() || '',
                 fecha_hora: fechaHora_bd
             }
 
